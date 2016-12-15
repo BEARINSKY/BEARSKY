@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>日历</title>
+    <link rel="stylesheet" href="rili.css">
+    <script  src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <!--<script language="javascript" type="text/javascript" src="t1.js"></script>-->
+    <script type="text/javascript" src="t1.js"></script>
+</head>
+<body>
+<div id="rl">
+    <div id="rl-h">
+        <div id="year" class="btn">
+            <div onclick="showtime(++y,m)" class="ad">+</div>
+            <div id="numy"></div>
+            <div onclick="showtime(--y,m)" class="ad">-</div>
+        </div>
+        <div>年</div>
+        <div id="mouth" class="btn">
+            <div onclick="showtime(y,++m)" class="ad">+</div>
+            <div id="numm"></div>
+            <div onclick="showtime(y,--m)" class="ad">-</div>
+        </div>
+        <div>月</div>
+    </div>
+    <br/>
+    <table id="rl-t">
+        <thead>
+        <tr>
+            <th><span>Mon</span></th>
+            <th><span>Tues</span></th>
+            <th><span>Wed</span></th>
+            <th><span>Thur</span></th>
+            <th><span>Fri</span></th>
+            <th><span>Sat</span></th>
+            <th><span>Sun</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="rl-f"></div>
+</div>
+<br/>
+<txt id="tt"></txt>
+</body>
+</html>

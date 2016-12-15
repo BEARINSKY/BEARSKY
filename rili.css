@@ -1,0 +1,23 @@
+*{font-weight: 700;}
+#rl {width: 380px;}
+#rl-t td{text-align:center;}
+#rl-t {width: 380px;}
+#rl-h div{float: left;display:inline;}
+.btn{border: solid 1px;}
+.btn div{text-align:center;}
+.today{background-color:yellow;color: black;border: solid 1px black;}
+.today:hover{background-color:black;color: yellow;border: solid 1px yellow;}
+#rl-h>div{margin:10px;}
+#numy,#numm{width:60px;border: solid 1px;}
+td{cursor:pointer;}
+td txt:hover{border: solid 1px;}
+.ad {width: 30px;border: solid 1px;cursor:pointer;}
+.ad:hover{background-color: gray;color: white;
+    /*禁止用户文本选择*/
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;}
+thead tr span{font-family: 黑体;font-size: 20px;}
+#tt{margin: 10px;font-weight: 400;}
