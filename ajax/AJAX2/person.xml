@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!--根节点，有且只有一个-->
+<person>
+    <users>
+        <user id="1">
+            <name>name1</name>
+            <age>20</age>
+            <gender>boy</gender>
+        </user>
+        <user id="2">
+            <name>name2</name>
+            <age>20</age>
+            <gender>girl</gender>
+        </user>
+    </users>
+</person>
