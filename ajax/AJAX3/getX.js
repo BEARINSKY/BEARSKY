@@ -21,21 +21,37 @@ var getXML=function(){
             var xmldom=xhr.responseXML;
             //console.log(xmldom);
             var users=xmldom.getElementsByTagName("user");
+            //将每个ID作为一个对象存储
+            var cUser=function(){};
+            //将每个对象PUSH到该数组
+            var arrUser=[];
             for(var i=0;i<users.length;i++){
                 var user=users[i];
+                var userp=new cUser();
                 var id=user.getAttribute("id");
-                var name=user.nodeName;
-                console.log("节点名称："+name+",id:"+id);
+                userp["id"]=id;
                 for(var j=0;j<user.children.length;j++){
                     var child=user.children[j];
-                    console.log(child.nodeName+":"+child.firstChild.nodeValue);
+                    //console.log(child.nodeName+":"+child.firstChild.nodeValue);
+                    userp[child.nodeName]=child.firstChild.nodeValue;
                 }
+                arrUser.push(userp);
+            }
+            //console.log(arrUser.length);
+            for(var k=0;k<arrUser.length;k++){
+                var tr=$("<tr></tr>");
+                var m=arrUser[k];
+                for (var r in m){
+                    var td=$("<td>"+m[r]+"</td>");
+                    tr.append(td);
+                }
+                $("table").append(tr);
             }
         }
     };
     xhr.send(null);
 };
 $(document).ready(function () {
-    getXML();
-   // console.log("aaaa");
+    //getXML();
+    // console.log("aaaa");
 });
