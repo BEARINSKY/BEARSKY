@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>去空格</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        window.onload = function(){
+
+            $("#btn").click(function(){
+                var str=$("#value").val();
+                var res=translate(str);
+                $("#value").val(res);
+                if(res.length==0){alert("您的输入为空");}
+                else{alert("您的输入不为空");}
+                //alert("结果是："+res);
+            });
+        };
+        function translate(str){
+            var res=str.split(" ");
+            return res.join("");
+        }
+    </script>
+</head>
+<body>
+<input id="value">
+<button id="btn">检测是否为空（去空格）</button>
+</body>
+</html>

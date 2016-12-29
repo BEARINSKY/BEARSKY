@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>检测是否为空</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        window.onload = function(){
+            function translate(str){
+                var res=str.split(" ");
+                return res.join("");
+            }
+            $("#btn").click(function(){
+                var str=$("#value").val();
+                var res=translate(str);
+                $("#value").val(res);
+               // alert("结果是："+res);
+            });
+        }
+    </script>
+</head>
+<body>
+<input id="value">
+<button id="btn">去空格</button>
+</body>
+</html>

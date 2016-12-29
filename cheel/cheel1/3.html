@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>禁止输入</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        var flag=true;
+        window.onload= function(){
+            //第一种写法  控制失去焦点
+            var s= $("#s");
+            s.focus(function(){
+                s.blur();
+            });
+            //第二种写法  通过disabled属性
+            var b=$("#btn");
+            var v=$("#value");
+            b.click(function(){
+                if(flag){
+                    flag=false;
+                    v.attr("disabled","disabled");
+                    v.attr("title","此时不允许输入");
+                    b.text("允许输入");
+                }else{
+                    flag=true;
+                    v.removeAttr("disabled");
+                    v.attr("title","此时允许输入");
+                    b.text("禁止输入");
+                }
+            });
+        };
+
+    </script>
+</head>
+<body>
+<input type="text" value="禁止输入" id='s' /><br/>
+<input id="value" title="此时允许输入">
+<button id="btn" value="切换输入开关">切换输入开关</button>
+
+</body>
+</html>
