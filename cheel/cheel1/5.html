@@ -2,20 +2,21 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>禁止输入中文</title>
+    <title>禁止复制粘贴</title>
     <script type="text/javascript" src="../jquery-1.9.1.js"></script>
     <script type="text/javascript" >
         window.onload= function(){
-        //利用正则替换掉中文
+            //bind绑定事件
             var v=$("#value");
-                v.blur(function(){
-                var str=v.val();
-                v.val(str.replace(/[\u4e00-\u9fa5]/g,""));
+            v.bind("copy cut paste",function(){
+                alert("该操作已被禁止！");
+                return false;
             });
         };
     </script>
 </head>
 <body>
+<h1>禁止复制粘贴</h1>
 <input id="value" title="禁止输入中文">
 </body>
 </html>

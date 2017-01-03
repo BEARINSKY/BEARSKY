@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>only chinese</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        window.onload= function(){
+            //bind绑定事件
+            var v=$("#banNumber");
+            v.bind("blur focus keyup",function(){
+                return onlyc(v);
+            });
+        };
+        var onlyc=function(ele){
+            var str=ele.val();
+            ele.val(str.replace(/[^\u4e00-\u9fa5]/g,""));
+        };
+    </script>
+</head>
+<body>
+<h1>只允许输入中文</h1>
+<input type="text" name="number"  value='只能输入中文' id='banNumber'/><br>
+<input type='submit' value='提交'>
+</body>
+</html>

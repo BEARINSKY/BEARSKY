@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>only number</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        window.onload= function(){
+            //bind绑定事件
+            var v=$("#banNumber");
+                v.bind("blur focus keyup",function(){
+                var str=v.val();
+                v.val(str.replace(/\D/g,""));
+            });
+        };
+    </script>
+</head>
+<body>
+<h1>只允许输入数字</h1>
+<input type="number" name="numberHtml5"  value='html5只能输入数字' id='banNumberHtml5'/><br>
+<input type="text" name="number"  value='只能输入数字' id='banNumber'/><br>
+<input type='submit' value='提交'>
+</body>
+</html>
