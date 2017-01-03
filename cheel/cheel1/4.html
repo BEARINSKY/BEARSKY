@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>禁止输入</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        window.onload= function(){
+        //利用正则替换掉中文
+            var v=$("#value");
+                v.blur(function(){
+                var str=v.val();
+                v.val(str.replace(/[\u4e00-\u9fa5]/g,""));
+            });
+        };
+    </script>
+</head>
+<body>
+<input id="value" title="禁止输入中文">
+</body>
+</html>
