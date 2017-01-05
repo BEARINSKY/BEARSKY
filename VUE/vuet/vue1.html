@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue测试</title>
+    <script type="text/javascript" src="../vue.js"></script>
+    <script type="text/javascript" >
+        window.onload= function(){
+        var app = new Vue({
+            el: '#div1',
+            data: {
+                message: 'Hello Vue!'
+            }
+        });
+        }
+    </script>
+</head>
+<body>
+<div id="div1">{{ message }}</div>
+</body>
+</html>

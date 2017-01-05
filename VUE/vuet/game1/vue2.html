@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue测试</title>
+    <script type="text/javascript" src="vue.js"></script>
+    <link rel="stylesheet" href="css2.css">
+    <script type="text/javascript" >
+        window.onload= function(){
+            Vue.component('button-counter', {
+                template: '<button v-on:click="increment" v-bind:class="classObject" class="bc">{{ counter }}</button>',
+                data: function () {
+                     return {
+                        counter: 0
+                    }
+                },
+                methods: {
+                    increment: function () {
+                        this.counter += 1
+                        this.$emit('increment1')//子组件不能直接触发父组件中的方法，需要自定义触发事件increment，并在每个实例中用V-ON绑定父组件事件
+                    }
+                },
+            })
+
+            var vv1=new Vue({
+                el:"#a",
+                data: {
+                    total: 0
+                },
+                methods: {
+                    incrementTotal: function () {
+                        this.total += 1
+                    }
+                }
+            });
+            var aa=new Vue({
+                el: '#demo',
+                data: {
+                    show: true
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div id="a">
+    <p class="b">{{ total }}</p>
+    <span>押大</span><button-counter v-on:increment1="incrementTotal" ></button-counter>
+    <br>
+    <span>押小</span><button-counter v-on:increment1="incrementTotal" ></button-counter>
+    <br>
+    <span>豹子</span><button-counter v-on:increment1="incrementTotal" ></button-counter>
+</div>
+
+<br/>
+<div id="test"></div>
+<div id="demo">
+    <button v-on:click="show = !show">
+        Toggle
+    </button>
+    <transition name="fade1">
+        <p v-if="show">hello</p>
+    </transition>
+</div>
+</body>
+</html>

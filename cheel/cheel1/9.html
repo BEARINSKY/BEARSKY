@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>截取</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        window.onload= function(){
+            //bind绑定事件
+            var v=$("#banNumber");
+            v.bind("blur focus keyup",function(){
+                return sub(v);
+            });
+        };
+        var length=7;//默认长度为7
+        var sub=function(ele){
+            var str=ele.val();
+            ele.val(str.substr(0,length));
+        };
+    </script>
+</head>
+<body>
+<h1>指定字符串长度</h1>
+<input type="text" name="number"  value='默认长度为7' id='banNumber'/><br>
+<input type='submit' value='提交'>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>实时显示剩余可输入字数</title>
+    <script type="text/javascript" src="../jquery-1.9.1.js"></script>
+    <script type="text/javascript" >
+        window.onload= function(){
+            //bind绑定事件
+            var v=$("#banNumber");
+            v.bind("blur focus keyup",function(){
+                //return sub(v);
+                //alert("ss");
+                return num1();
+            });
+
+        };
+        var length=7;//默认长度为7
+        var sub=function(ele){
+            var str=ele.val();
+            ele.val(str.substr(0,length));
+        };
+        var num=function(){
+            var v=$("#banNumber");
+            var s=$("#num");
+            var l=v.split("").length;
+            s.html(length-l);
+        };
+        var num1=function () {
+            var v=$("#banNumber");
+            var s=$("#num");
+            var l=v.split("").length;
+            //var res=7-l;
+            s.html(9);
+        }
+    </script>
+</head>
+<body>
+<h1>实时显示剩余可输入字数</h1>
+<input type="text" name="number"  value='默认长度为7' id='banNumber'/><br>
+<div>剩余可输入为：<span id="num"></span></div>
+<button onclick="num1(12)">tt</button>
+</body>
+</html>

@@ -22,6 +22,10 @@ var showtime=function(year,mouth){
         mouth-=12;
         year++;
     }
+    while(mouth<1){
+        mouth+=12;
+        year--;
+    }
     $("#numy").html(year);
     $("#numm").html(mouth);
     var oneW=(new Date(year,mouth-1,1)).getDay();
