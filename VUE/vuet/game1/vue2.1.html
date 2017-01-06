@@ -7,21 +7,6 @@
     <link rel="stylesheet" href="css2.css">
     <script type="text/javascript" >
         window.onload= function(){
-            Vue.component('button-counter', {
-                template: '<button v-on:click="increment" class="bc">{{ counter }}</button>',
-                data: function () {
-                     return {
-                        counter: 0
-                    }
-                },
-                methods: {
-                    increment: function () {
-                        this.counter += 1
-                        this.$emit('add')//子组件不能直接触发父组件中的方法，需要自定义触发事件increment，并在每个实例中用V-ON绑定父组件事件
-                    }
-                },
-            })
-
             var vv1=new Vue({
                 el:"#a",
                 data: {
@@ -44,11 +29,16 @@
                                 var res=this.sma*2;
                                 alert("结果是："+this.ran+" 小！赔率2，获利："+res);
                                 this.total+=res;
-
                         }
+                        this.clear();
+//                        this.big=0;
+//                        this.sma=0;
+//                        this.xxx=0;
                     },
                     clear:function () {
-
+                        this.big=0;
+                        this.sma=0;
+                        this.xxx=0;
                     },
                     addB:function () {
                         this.big++;
@@ -77,11 +67,11 @@
     <button v-on:click="total += 10">充值</button>
     <br>
     <br>
-    <span>押大</span><button-counter v-on:add="addB"></button-counter>
+    <span>押大</span><button v-on:click="addB" class="bc">{{big}}</button>
     <br>
-    <span>押小</span><button-counter v-on:add="addS"></button-counter>
+    <span>押小</span><button v-on:click="addS" class="bc">{{sma}}</button>
     <br>
-    <span>豹子</span><button-counter v-on:add="addX"></button-counter>
+    <span>豹子</span><button v-on:click="addX" class="bc">{{xxx}}</button>
     <br>
     <br>
     <button v-on:click="getRan">开始</button>
