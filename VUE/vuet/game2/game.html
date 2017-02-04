@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="game.css">
+    <script type="text/javascript" src="vue.js"></script>
+    <title>game</title>
+</head>
+<body>
+<div class="game" id="game">
+    <div class="top">
+        <div class="person" id="person">
+            <ul>
+                <li>生命：{{person.nowhealth}}/{{person.health}}</li>
+                <li>防御：{{person.armor}}</li>
+                <li>攻击：{{person.attack}}</li>
+                <li>暴击：{{person.crit}}</li>
+                <li>真实伤害：{{person.hurt}}</li>
+                <li>经验值：{{person.nowexp}}/{{person.exp}}</li>
+                <li>当前等级：{{person.level}}</li>
+            </ul>
+        </div>
+        <div class="main">
+            <h3 id="maintxt">{{maintxt}}</h3>
+        </div>
+    </div>
+    <div class="down">
+        <div class="fight">
+            <ul>
+                <li v-for="(item,index) in fighttxts">
+                    <p v-bind:class="item.class"> {{ item.txt }}</p>
+                </li>
+            </ul>
+        </div>
+        <div class="choose"id="choose">
+            <button v-on:click="start">开始</button>
+            <button>暂停</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" >
+    window.onload= function(){
+        var person=new Vue({
+            el:"#game",
+            data: {
+                maintxt:"你开始探险",//主文本
+                fighttxts:[],//战斗文本
+                //角色
+                person:{
+                    health:1000,//总生命值
+                    nowhealth:1000,//当前生命值
+                    armor:10,//防御
+                    attack:100,//攻击
+                    crit:0,//暴击
+                    hurt:0,//真实伤害
+                    level:1,
+                    exp:100,
+                    nowexp:0
+                },
+                //怪物
+                monster:{
+                    name:"",
+                    health:100,//总生命值
+                    nowhealth:100,//当前生命值
+                    armor:10,//防御
+                    attack:100,//攻击
+                    crit:0,//暴击
+                    exp:1000
+                }
+            },
+            methods:{
+                start:function(){
+                    this.creatmonster();
+                    this.fight();
+                },
+                creatmonster:function () {
+                    this.monster.name="野猪";
+                    this.maintxt="你遭遇了一只"+this.monster.name;
+                },
+                fight:function () {
+                    this.person.nowhealth-=this.monster.attack;
+                    if (this.person.nowhealth>0){
+                         this.suc();
+                    }else {
+                         this.def();
+                    }
+                },
+                //传入战斗信息 并显示
+                showtxt:function (str) {
+                    this.fighttxts.unshift(str);
+                },
+                suc:function(){
+                    var str={txt:"你击杀了一只"+this.monster.name+"。并获得"+this.monster.exp+"经验值。",class:"black"};
+                    this.showtxt(str);
+                    this.person.nowexp+=this.monster.exp;
+                    while (this.person.nowexp>=this.person.exp){
+                        this.person.level++;
+                        this.person.nowexp-=this.person.exp;
+                        this.person.exp=parseInt(this.person.exp*1.2);
+                        var str={txt:"系统提示：恭喜您升到"+this.person.level+"级，您又变强了！",class:"red"};
+                        this.showtxt(str);
+                    };
+                },
+                def:function () {
+                    while (this.person.nowhealth<=0){
+                        console.log("YOU DIE");
+                        this.person.nowhealth=this.person.health;
+                    }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
