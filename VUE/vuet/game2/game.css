@@ -16,12 +16,16 @@ table{border-collapse:collapse;border-spacing:0;}
     margin: 0 auto;
     margin-top: 150px;
 }
-.top{width: 100%;height: 60%;background-color: aliceblue;}
-.person{width: 40%;float: left;}
-.health{display:inline-block;}
-.main{width: 60%;float: right;}
+.top{width: 100%;height:360px;background-color: aliceblue;overflow: hidden;position: relative}
+    .person{width: 300px;float: left;}
+        .health{display:inline-block;}
+        .healthback{display:inline-block;background-color: red;width: 250px;border: solid 1px;}
+    .main{width: 500px;float: right;}
+    .fight{width: 100%;height:300px;overflow:scroll;position: absolute;bottom: 0px;}
+    .fight ul li{margin: 5px;}
 .down{width: 100%;height: 40%;}
-.fight{width: 60%;height:100%;float: left;overflow:scroll;}
-.red{color: #FF0000;}
-.choose{width: 40%;height: 100%;float: right;background-color: aquamarine}
-button{margin:30px;}
+    .system{width: 60%;height:100%;float: left;overflow:scroll;}
+        .red{color: #FF0000;}
+    .choose{width: 40%;height: 100%;float: right;background-color: aquamarine}
+        .fightchoose{border: solid 1px;}
+        button{margin:10px;}
