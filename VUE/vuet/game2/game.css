@@ -19,10 +19,12 @@ table{border-collapse:collapse;border-spacing:0;}
 .top{width: 100%;height:360px;background-color: aliceblue;overflow: hidden;position: relative}
     .person{width: 300px;float: left;}
         .health{display:inline-block;}
-        .healthback{display:inline-block;background-color: red;width: 250px;border: solid 1px;}
+        .healthback{display:inline-block;background-color: whitesmoke;}
     .main{width: 500px;float: right;}
-    .fight{width: 100%;height:300px;overflow:scroll;position: absolute;bottom: 0px;}
+    .fight{width: 500px;height:300px;overflow:scroll;position: absolute;bottom: 0px;}
     .fight ul li{margin: 5px;}
+    .full{border: solid 1px black;}
+    .empt{border: solid 2px red;}
 .down{width: 100%;height: 40%;}
     .system{width: 60%;height:100%;float: left;overflow:scroll;}
         .red{color: #FF0000;}
