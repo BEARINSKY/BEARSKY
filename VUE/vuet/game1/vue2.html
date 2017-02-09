@@ -8,7 +8,7 @@
     <script type="text/javascript" >
         window.onload= function(){
             Vue.component('button-counter', {
-                template: '<button v-on:click="increment" class="bc">{{ counter }}</button>',
+                template: '<button v-on:click="increment" v-bind:class="classObject" class="bc">{{ counter }}</button>',
                 data: function () {
                      return {
                         counter: 0
@@ -17,7 +17,7 @@
                 methods: {
                     increment: function () {
                         this.counter += 1
-                        this.$emit('add')//子组件不能直接触发父组件中的方法，需要自定义触发事件increment，并在每个实例中用V-ON绑定父组件事件
+                        this.$emit('increment1')//子组件不能直接触发父组件中的方法，需要自定义触发事件increment，并在每个实例中用V-ON绑定父组件事件
                     }
                 },
             })
@@ -25,68 +25,42 @@
             var vv1=new Vue({
                 el:"#a",
                 data: {
-                    total:0,
-                    ran:0,
-                    big:0,//押大
-                    sma:0,//小
-                    xxx:0//豹子
+                    total: 0
                 },
                 methods: {
-                    getRan: function () {
-                        this.ran=Math.floor(Math.random()*10+1);
-                        if (this.ran>5)
-                            {
-                                var res=this.big*2;
-                                alert("结果是："+this.ran+" 大！赔率2，获利："+res);
-                                this.total+=res;
-                            }
-                        else{
-                                var res=this.sma*2;
-                                alert("结果是："+this.ran+" 小！赔率2，获利："+res);
-                                this.total+=res;
-
-                        }
-                    },
-                    clear:function () {
-
-                    },
-                    addB:function () {
-                        this.big++;
-                        this.total--;
-                    },
-                    addS:function () {
-                        this.sma++;
-                        this.total--;
-                    },
-                    addX:function () {
-                        this.xxx++;
-                        this.total--;
-                    },
-                    addT:function () {
-                        this.total+=10;
+                    incrementTotal: function () {
+                        this.total += 1
                     }
                 }
             });
+            var aa=new Vue({
+                el: '#demo',
+                data: {
+                    show: true
+                }
+            })
         }
     </script>
 </head>
 <body>
 <div id="a">
-    <div id="test">{{ran}}</div>
-    <p>您当前的余额是： {{ total }} 。</p>
-    <button v-on:click="total += 10">充值</button>
+    <p class="b">{{ total }}</p>
+    <span>押大</span><button-counter v-on:increment1="incrementTotal" ></button-counter>
     <br>
+    <span>押小</span><button-counter v-on:increment1="incrementTotal" ></button-counter>
     <br>
-    <span>押大</span><button-counter v-on:add="addB"></button-counter>
-    <br>
-    <span>押小</span><button-counter v-on:add="addS"></button-counter>
-    <br>
-    <span>豹子</span><button-counter v-on:add="addX"></button-counter>
-    <br>
-    <br>
-    <button v-on:click="getRan">开始</button>
+    <span>豹子</span><button-counter v-on:increment1="incrementTotal" ></button-counter>
 </div>
 
-
+<br/>
+<div id="test"></div>
+<div id="demo">
+    <button v-on:click="show = !show">
+        Toggle
+    </button>
+    <transition name="fade1">
+        <p v-if="show">hello</p>
+    </transition>
+</div>
 </body>
 </html>
