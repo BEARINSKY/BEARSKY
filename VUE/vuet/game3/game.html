@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="game.css">
+    <script type="text/javascript" src="vue.js"></script>
+    <title>game</title>
+</head>
+<body>
+<div class="game" id="game">
+    <div class="top">
+        <div class="person" id="person">
+            <ul>
+                <li>生命：
+                    <div class="healthback":style="{width:'200px'}" :class="personhealthcss">
+                        <span class="health" :style="{backgroundColor:person.healthcolor,width:(person.nowhealth/creathealth)*100 + '%',color:'black'}">{{person.nowhealth}}/{{creathealth}}</span>
+                    </div>
+                </li>
+                <li>防御：{{person.armor}}</li>
+                <li>攻击：{{person.attack}}</li>
+                <li>暴击：{{person.crit}}</li>
+                <li>真实伤害：{{person.hurt}}</li>
+                <li>经验值：{{person.nowexp}}/{{person.exp}}</li>
+                <li>当前等级：{{person.level}}</li>
+                <li><button v-on:click="addattack">增加攻击力</button></li>
+                <!--<li>{{personhurted}}</li>-->
+            </ul>
+        </div>
+        <div class="main">
+            <h3 id="maintxt">{{maintxt}}</h3>
+            <div  v-show="showmonster">
+                <div class="healthback":style="{width:'450px'}":class="personhealthcss">
+                    <span class="health" :style="{width:(monster.nowhealth/monster.health)*100 + '%',backgroundColor:'red',color:'black'}">{{monster.nowhealth}}/{{monster.health}}</span>
+                </div>
+            </div>
+            <div class="fight" >
+                <ul>
+                    <li v-for="(item,index) in fighttxts">
+                        <span>战斗提示：</span><span v-bind:style="{color: item.color}"> {{ item.txt }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="down">
+        <div class="system">
+            <ul>
+                <li v-for="(item,index) in systemtxts">
+                    <span>系统提示：</span><span v-bind:style="{color: item.color}"> {{ item.txt }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="choose"id="choose">
+            <button v-on:click="start">战斗</button>
+            <button v-on:click="stop">返回</button>
+            <button v-on:click="showbag">背包</button>
+            <div v-show="showfight" class="fightchoose">
+                <p>战斗选项：</p>
+                <button v-on:click="attack">攻击</button>
+                <button v-on:click="heal">吃药</button>
+                <button v-on:click="flee">逃跑</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" >
+    window.onload= function(){
+        var person=new Vue({
+            el:"#game",
+            data: {
+                maintxt:"你开始探险",//主文本
+                systemtxts:[],//系统文本
+                fighttxts:[],//战斗文本
+
+                //控制界面显示的V-IF变量
+                showfight:false,
+                showmonster:false,
+
+                //控制血量变少的class
+                personhealthcss:"full",
+                monsterhealthcss:"full",
+                //角色
+                person:{
+                    health:1000,//初始生命值
+                    nowhealth:1000,//当前生命值
+                    armor:10,//防御
+                    attack:10,//攻击
+                    crit:0,//暴击
+                    hurt:0,//真实伤害
+                    level:1,
+                    exp:100,
+                    nowexp:0,
+                    healthcolor:"red",
+                    hurted:0
+                    //flaghealth:false
+                    // test:1
+                },
+                //背包
+                bag:{
+                    potion:10//药水数量
+                },
+                //怪物
+                monster:{
+                    name:"",
+                    health:100,//总生命值
+                    nowhealth:100,//当前生命值
+                    armor:10,//防御
+                    attack:100,//攻击
+                    crit:0,//暴击
+                    exp:100,
+                    hurt:0,
+                }
+            },
+            //计算属性
+            computed:{
+                //计算属性的依赖值发生改变就会自动更新，完成了“升级满血”的需求
+                creathealth: function () {
+                    return this.person.nowhealth=this.person.health+100*this.person.level;
+                },
+                //角色每次受到的伤害
+                personhurted:function () {
+                    var hurted=0;
+                    hurted=this.monster.attack-this.person.armor;
+                    if(hurted<0){
+                        hurted=1;
+                    }
+                   // return 100;
+                    return hurted;
+                },
+                //怪物每次受到的伤害
+                monsterhurted:function () {
+                    var hurt=0;
+                    hurt=this.person.attack-this.monster.armor;
+                    if(hurt<0){
+                        hurt =1;
+                    }
+                    return hurt;
+                }
+            },
+            //监听属性
+            watch:{
+
+                bag:{
+                    handler:function(){
+                        console.log("药剂数量有变化");
+                    },deep:true},//deep：true监听遍历对象属性
+                person:{
+                    handler:function(){
+                        //监听血量，过低就用红色背景显示
+                        if(this.person.nowhealth<=this.person.health*0.2){
+                            this.person.healthcolor="pink";
+                            this.personhealthcss="empt";
+                            var str={txt:"你他娘的快G了！别打了，快跑啊",color:"red"};
+                            this.showtxt(str);
+                        }else {
+                            this.personhealthcss="full";
+                            this.person.healthcolor="red";
+                        }
+                       //监听经验值，满了就升级
+                       while (this.person.nowexp>=this.person.exp){
+                           this.person.level++;
+                           this.person.nowexp-=this.person.exp;
+                           this.person.exp=parseInt(this.person.exp*1.2);
+                           // this.person.nowhealth=this.creathealth;
+                           var str={txt:"恭喜您升到"+this.person.level+"级，您又变强了！",color:"yellow"};
+                           this.showtxt(str);
+                       }
+                            },deep:true},//deep：true监听遍历对象属性
+                monster:{
+                    handler:function(){
+                        //监听血量，过低就用红色背景显示
+                        if(this.monster.nowhealth<=this.monster.health*0.2){
+                            this.monster.healthcolor="pink";
+                            this.monsterhealthcss="empt";
+                            var str={txt:"怪物就要挂了，加油输出！",color:"red"};
+                            this.showtxt(str);
+                        }else {
+                            this.monsterhealthcss="full";
+                            this.monster.healthcolor="red";
+                        }
+                        //监听怪物血量，低了就爆东西
+                        if (this.monster.nowhealth<=0){
+                            this.suc();
+
+                            this.bag.potion++;//目前设置为 每一个怪物死亡掉落一瓶药水
+                        }
+                    },deep:true}//deep：true监听遍历对象属性
+                        },
+            //sass
+            //控制方法
+            methods:{
+                //测试方法
+                addattack:function () {
+                    this.person.attack++;
+                },
+                //@逻辑
+                start:function(){
+                    this.creatmonster();
+                    //this.fight();
+                    this.showfight=true;
+                    this.showmonster=true;
+                    //this.person.test++;
+                },
+                stop:function(){
+                    this.showfight=false;
+                },
+                //显示背包
+                showbag:function () {
+                    var str={txt:"背包中的物品有药水*"+this.bag.potion+"瓶。每瓶药水可以回复100点生命值。",color:"black"};
+                    this.showtxt(str);
+                },
+                creatmonster:function () {
+                    this.monster.name="野猪";
+                    this.maintxt="你遭遇了一只"+this.monster.name;
+
+                },
+                fight:function () {
+                    this.person.nowhealth-=this.monster.attack;
+                    //this.monster.hurt+=this.monster.attack;
+                    if (this.person.nowhealth>0){
+                         this.suc();
+                    }else {
+                         this.def();
+                    }
+                },
+                //@战斗
+                //攻击
+                attack:function () {
+                    console.log(this.personhurted);
+                    this.person.nowhealth-=this.personhurted;
+                    var s1="你受到了"+this.personhurted+"点伤害。";
+                    var str={txt:s1,color:"black"};
+                    this.showfighttxt(str);
+                    this.monster.nowhealth-=this.monsterhurted;
+                    var s2="你对敌人造成了"+this.monsterhurted+"点伤害。";
+                    var str={txt:s2,color:"black"};
+                    this.showfighttxt(str);
+                },
+                //治疗
+                heal:function () {
+                    console.log("heal");
+                    var strtxt="";
+                    if (this.bag.potion<1){
+                        strtxt = "抱歉，背包里没有足够的药水可以使用。";
+                    }else {
+                        this.bag.potion--;
+                        this.person.nowhealth+=100;
+                        strtxt = "你使用了一瓶药水，恢复了100点生命值。";
+                        if (this.person.nowhealth>=this.creathealth)
+                        {
+                            this.person.nowhealth=this.creathealth;
+                            strtxt = "你的血量已满，无需再使用药水。";
+                        }
+                    }
+                    var str={txt:strtxt,color:"black"};
+                    this.showfighttxt(str);
+                },
+                //逃跑
+                flee:function () {
+                    console.log("flee");
+                    this.maintxt="留得青山在，不怕没柴烧，识时务者为俊杰。你继续开始冒险。";
+
+                    this.monster.nowhealth=100;
+                    this.showmonster=false;
+                    this.stop();
+                    this.fighttxts=[];//清空战斗字幕
+                },
+                //传入系统信息 并显示
+                showtxt:function (str) {
+                    this.systemtxts.unshift(str);
+                },
+                //传入当前战斗信息并显示
+                showfighttxt:function(str){
+                    this.fighttxts.unshift(str);
+                },
+                suc:function(){
+                    var str={txt:"你击杀了一只"+this.monster.name+"，获得"+this.monster.exp+"经验值，以及一瓶血药。",color:"black"};
+                    this.showtxt(str);
+                    this.person.nowexp+=this.monster.exp;
+                    this.maintxt="你击杀了一只"+this.monster.name+"，你继续开始冒险。";
+                    //
+                    this.monster.nowhealth=100;
+                    this.showmonster=false;
+                    this.stop();
+                    this.fighttxts=[];//清空战斗字幕
+                },
+                def:function () {
+                    while (this.person.nowhealth<=0){
+                        console.log("YOU DIE");
+                        this.person.nowhealth=this.person.health;
+                    }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
