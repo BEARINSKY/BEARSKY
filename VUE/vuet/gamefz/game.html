@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="game.css">
+    <script type="text/javascript" src="vue.js"></script>
+    <title>game</title>
+</head>
+<body>
+<div class="game"id="game">
+    <div class="value" v-bind:style="{width:value+'%'}">value:{{value}}%</div>
+    <button v-on:click="addvalue">add</button>
+    <button v-on:click="changeflag">start</button>
+    <button v-on:click="stop">stop</button>
+    <ul>
+        <li v-for="(item,index) in txts">
+            <span>战斗提示：</span><span> {{ item }}</span>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" >
+    window.onload= function(){
+        var person=new Vue({
+            el:"#game",
+            data: {
+                value:0,
+                flag:false,
+                txts:[],
+                interval:null
+            },
+            //计算属性
+            computed:{
+                //计算属性的依赖值发生改变就会自动更新，完成了“升级满血”的需求
+                v:function () {
+                    return this.value;
+                }
+            },
+            //监听属性
+            watch: {
+                value:function (newValue, oldValue) {
+                    console.log(this.value);
+                    if(newValue==10){
+                        var str="达到"+newValue;
+                        this.showtxt(str);
+                    }
+
+
+                },
+                flag:function () {
+                    if(this.flag){
+                        console.log(this.flag);
+                        this.interval=setInterval(function () {
+                            person.value++;
+                            //console.log(person.value);
+                        },500);
+                    }else{
+                        console.log(this.flag);
+                        clearInterval(this.interval);
+                    }
+                }
+            },
+            methods:{
+              addvalue:function () {
+                  this.value++;
+                 // console.log(this.value);
+              },
+                showtxt:function (txt) {
+                    this.txts.push(txt);
+                },
+                changeflag:function () {
+                    this.flag=!this.flag;
+                },
+                start:function () {
+                  //  var a=this.v;
+//                    var a=function () {
+//                      console.log(person.value);
+//                    };
+//                    setInterval(a,500);
+                },
+                stop:function () {
+                  //  clearInterval(i);
+                    console.log("stop");
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
