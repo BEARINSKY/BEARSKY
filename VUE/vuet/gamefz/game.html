@@ -12,11 +12,27 @@
     <button v-on:click="addvalue">add</button>
     <button v-on:click="changeflag">start</button>
     <button v-on:click="stop">stop</button>
+    <button v-on:click="addtankvalue">add</button>
     <ul>
         <li v-for="(item,index) in txts">
             <span>战斗提示：</span><span> {{ item }}</span>
         </li>
     </ul>
+    <div id="color" v-bind:style="{opacity:value/100}"></div>
+    <div class="show">
+        <div class="fight left">
+            <div class="road grey">
+                <img v-bind:style="{left:addt+'px'}" src="image/tank.jpg" alt="tank" class="img">
+            </div>
+            <div class="road">
+                <div class="tower">防御塔</div>
+            </div>
+            <div class="road grey">敌军进攻路线</div>
+            <div class="road">阻击峡谷</div>
+            <div class="road grey">敌军进攻路线</div>
+        </div>
+        <div class="armor right">防御高地</div>
+    </div>
 </div>
 
 <script type="text/javascript" >
@@ -27,7 +43,8 @@
                 value:0,
                 flag:false,
                 txts:[],
-                interval:null
+                interval:null,
+                addt:0,
             },
             //计算属性
             computed:{
@@ -44,8 +61,13 @@
                         var str="达到"+newValue;
                         this.showtxt(str);
                     }
-
-
+                },
+                addt:function(){
+                    if(this.addt>640){
+                        this.addt=0;
+                    }else {
+                        this.addtankvalue();
+                    }
                 },
                 flag:function () {
                     if(this.flag){
@@ -60,7 +82,11 @@
                     }
                 }
             },
+            //todo 111
             methods:{
+                addtankvalue:function(){
+                    this.addt++;
+                },
               addvalue:function () {
                   this.value++;
                  // console.log(this.value);
